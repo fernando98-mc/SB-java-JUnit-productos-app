@@ -8,7 +8,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.List;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
@@ -24,6 +27,7 @@ import com.app.productos.repository.ProductoRepositorio;
  */
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ProductoTests {
 
 	@Autowired
@@ -31,6 +35,7 @@ public class ProductoTests {
 
 	@Test
 	@Rollback(false)
+	@Order(1)
 	public void testGuardarProducto() {
 		Producto producto = new Producto("Malteada", 30);
 		Producto productoGuardar = productoRepositorio.save(producto);
@@ -39,6 +44,7 @@ public class ProductoTests {
 	}
 
 	@Test
+	@Order(2)
 	public void testBuscarProductoNombre() {
 		String nombre = "Malteada";
 		Producto buscarProducto = productoRepositorio.findByNombre(nombre);
@@ -51,6 +57,7 @@ public class ProductoTests {
 	}
 
 	@Test
+	@Order(3)
 	public void testBuscarProductoNombreNoExistente() {
 		String nombre = "yohurt";
 		Producto buscarProducto = productoRepositorio.findByNombre(nombre);
@@ -63,8 +70,9 @@ public class ProductoTests {
 
 	@Test
 	@Rollback(false)
+	@Order(4)
 	public void testActualizarProducto() {
-		String nuevoProducto = "Malteada de chocolate"; // producto actualizado
+		String nuevoProducto = "Malteada de chocolate doble"; // producto actualizado
 		Producto producto = new Producto(nuevoProducto, 40);
 		producto.setId(1); // guarda atraves del Id
 
@@ -75,6 +83,7 @@ public class ProductoTests {
 	}
 
 	@Test
+	@Order(5)
 	public void testListarProductos() {
 		List<Producto> productos = (List<Producto>) productoRepositorio.findAll();
 
@@ -91,8 +100,9 @@ public class ProductoTests {
 
 	@Test
 	@Rollback(false)
+	@Order(6)
 	public void testEliminarProducto() {
-		Integer id = 4;
+		Integer id = 2;
 
 		// si existe sera "true"
 		boolean ifExistProductBeforeDelete = productoRepositorio.findById(id).isPresent();
