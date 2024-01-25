@@ -74,14 +74,17 @@ public class ProductoTests {
 
 	@Test
 	public void testListarProductos() {
-		List<Producto> productos = (List<Producto>)productoRepositorio.findAll();
-		
+		List<Producto> productos = (List<Producto>) productoRepositorio.findAll();
+
+		for (Producto producto : productos) {
+			System.out.println(producto);
+		}
+
 		/*
-		 * La lista se confirmara si
-		 * El tamano de la lista de los productos es mayor que "0"
+		 * La lista se confirmara si El tamano de la lista de los productos es mayor que
+		 * "0"
 		 */
 		assertThat(productos).size().isGreaterThan(0);
 	}
-	
-	
+
 }
