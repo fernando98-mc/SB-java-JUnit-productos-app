@@ -3,6 +3,8 @@ package com.app.productos;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.List;
 
@@ -85,6 +87,24 @@ public class ProductoTests {
 		 * "0"
 		 */
 		assertThat(productos).size().isGreaterThan(0);
+	}
+
+	@Test
+	@Rollback(false)
+	public void testEliminarProducto() {
+		Integer id = 4;
+
+		// si existe sera "true"
+		boolean ifExistProductBeforeDelete = productoRepositorio.findById(id).isPresent();
+
+		productoRepositorio.deleteById(id);
+
+		// si no existe sera "false"
+		boolean notExistProductAfterDelete = productoRepositorio.findById(id).isPresent();
+
+		assertTrue(ifExistProductBeforeDelete);
+		assertFalse(notExistProductAfterDelete);
+
 	}
 
 }
