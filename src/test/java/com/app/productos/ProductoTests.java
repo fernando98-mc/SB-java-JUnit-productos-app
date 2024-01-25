@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -57,4 +59,29 @@ public class ProductoTests {
 		assertNull(buscarProducto);
 	}
 
+	@Test
+	@Rollback(false)
+	public void testActualizarProducto() {
+		String nuevoProducto = "Malteada de chocolate"; // producto actualizado
+		Producto producto = new Producto(nuevoProducto, 40);
+		producto.setId(1); // guarda atraves del Id
+
+		productoRepositorio.save(producto);
+
+		Producto actualizarProducto = productoRepositorio.findByNombre(nuevoProducto);
+		assertThat(actualizarProducto.getNombre()).isEqualTo(nuevoProducto);
+	}
+
+	@Test
+	public void testListarProductos() {
+		List<Producto> productos = (List<Producto>)productoRepositorio.findAll();
+		
+		/*
+		 * La lista se confirmara si
+		 * El tamano de la lista de los productos es mayor que "0"
+		 */
+		assertThat(productos).size().isGreaterThan(0);
+	}
+	
+	
 }
