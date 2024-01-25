@@ -2,6 +2,7 @@ package com.app.productos;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,17 @@ public class ProductoTests {
 		 * "findByNombre"
 		 */
 		assertThat(buscarProducto.getNombre()).isEqualTo(nombre);
+	}
+
+	@Test
+	public void testBuscarProductoNombreNoExistente() {
+		String nombre = "yohurt";
+		Producto buscarProducto = productoRepositorio.findByNombre(nombre);
+
+		/*
+		 * Comprobara si un producto no existe, si existe dara ERROR
+		 */
+		assertNull(buscarProducto);
 	}
 
 }
