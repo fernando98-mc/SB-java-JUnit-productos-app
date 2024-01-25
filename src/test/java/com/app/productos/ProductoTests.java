@@ -1,8 +1,13 @@
 package com.app.productos;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.Rollback;
 
 import com.app.productos.entity.Producto;
 import com.app.productos.repository.ProductoRepositorio;
@@ -12,15 +17,19 @@ import com.app.productos.repository.ProductoRepositorio;
  * [inserciones a bases de datos]
  */
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 public class ProductoTests {
 
 	@Autowired
 	private ProductoRepositorio productoRepositorio;
 
 	@Test
+	@Rollback(false)
 	public void testGuardarProducto() {
 		Producto producto = new Producto("Malteada", 30);
-		productoRepositorio.save(producto);
+		Producto productoGuardar = productoRepositorio.save(producto);
+
+		assertNotNull(productoGuardar);
 	}
 
 }
