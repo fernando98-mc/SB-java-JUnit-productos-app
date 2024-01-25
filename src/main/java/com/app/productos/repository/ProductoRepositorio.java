@@ -5,4 +5,6 @@ import com.app.productos.entity.Producto;
 
 public interface ProductoRepositorio extends CrudRepository<Producto, Integer> {
 
+	public Producto findByNombre(String nombre);
+
 }

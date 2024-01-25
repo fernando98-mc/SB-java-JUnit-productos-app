@@ -1,5 +1,6 @@
 package com.app.productos;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,18 @@ public class ProductoTests {
 		Producto productoGuardar = productoRepositorio.save(producto);
 
 		assertNotNull(productoGuardar);
+	}
+
+	@Test
+	public void testBuscarProductoNombre() {
+		String nombre = "Malteada";
+		Producto buscarProducto = productoRepositorio.findByNombre(nombre);
+
+		/*
+		 * Va a comparar si el string nombre es igual al producto buscado en
+		 * "findByNombre"
+		 */
+		assertThat(buscarProducto.getNombre()).isEqualTo(nombre);
 	}
 
 }
